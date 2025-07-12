@@ -22,8 +22,12 @@ class MainScene extends Phaser.Scene
         // setInterval(()=> {deck.shuffle(); deck.show();}, 3000)
     }
 
+    isFlipped(){
+        return this.scale.width> this.scale.height;
+    }
+
     contentWidthSpace(){
-        return this.scale.width - 2 * this.scale.width * marging;
+        return this.isFlipped() ? this.scale.height - 2 * this.scale.height * marging :  this.scale.width - 2 * this.scale.width * marging;
     }
 
     rescale(){
@@ -49,16 +53,31 @@ class MainScene extends Phaser.Scene
     }
 
     updateLayout(){
-        this.rescale()
+        this.rescale();
+        const isPhoneFlipped = this.isFlipped();
         const cardWidth = this.getCardWidth();
         const cardHeight = this.getCardHeight();
-        const yPosition = this.scale.height - this.getHeightMarging() - cardHeight/2;
-        let xPosition = (this.scale.width - this.contentWidthSpace()) / 2;
+        const yPosition = isPhoneFlipped ? this.scale.width - this.getHeightMarging() - cardHeight/2 : this.scale.height - this.getHeightMarging() - cardHeight/2;
+        let xPosition = isPhoneFlipped ? (this.scale.height - this.contentWidthSpace()) / 2 : (this.scale.width - this.contentWidthSpace()) / 2;
          for (const A_card of ["deck","clubs_A","hearts_A","spades_A", "diamonds_A"]){
             if(A_card === "deck"){
-                this.deck.moveDeck(xPosition + cardWidth/2, yPosition);
+                if(isPhoneFlipped){
+                    this.deck.moveDeck(yPosition, this.scale.height - xPosition - cardWidth/2);
+                    this.deck.setRotation(Phaser.Math.DegToRad(-90));
+                }else{
+                    this.deck.moveDeck(xPosition + cardWidth/2, yPosition);
+                    this.deck.setRotation(Phaser.Math.DegToRad(0));
+                }
+                
             }else{
-                this.deck.moveSpecificCard(A_card, xPosition + cardWidth/2, yPosition);
+                if(isPhoneFlipped){
+                    this.deck.moveSpecificCard(A_card, yPosition, this.scale.height - xPosition - cardWidth/2);
+                    this.deck.getCard(A_card).setRotation(Phaser.Math.DegToRad(-90))
+                }else{
+                    this.deck.moveSpecificCard(A_card, xPosition + cardWidth/2, yPosition);
+                    this.deck.getCard(A_card).setRotation(Phaser.Math.DegToRad(0));
+                }
+                
             }
             xPosition += cardWidth + spaceBetweenCards;
         }
@@ -85,3 +104,13 @@ const config = {
     }
 };
 const game = new Phaser.Game(config);
+
+window.addEventListener('resize', () => {
+  game.scale.resize(window.innerWidth, window.innerHeight);
+});
+
+window.addEventListener('orientationchange', () => {
+  setTimeout(() => {
+    game.scale.resize(window.innerWidth, window.innerHeight);
+  }, 100);
+});

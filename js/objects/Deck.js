@@ -76,6 +76,9 @@ export default class Deck {
             listCard.forEach((card) => card.setVisible(true))
         }
     }
+    setRotation(rotation){
+        this.cards.forEach(card => card.setRotation(rotation))
+    }
 
     moveSpecificCard(key, x, y){
         this.getCard(key)?.setPosition(x,y);

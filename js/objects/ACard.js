@@ -11,6 +11,7 @@ export default class ACard extends Card{
         super(scene, x, y, frontKey, isBack, scaleX, scaleY);
         this.moveFrontTimes = 0;
         this.freeHeightSpace = 3;
+        this.rotationDeg = 0
     }
 
     onClick(){
@@ -19,14 +20,32 @@ export default class ACard extends Card{
     }
 
     setPosition(x,y){
-        this.x = x;
-        this.y = y - this.moveFrontTimes * (this.getHeight() +  this.freeHeightSpace);
-
+         if(this.rotationDeg == 0){
+            this.x = x;
+            this.y = y - this.moveFrontTimes * (this.getHeight() +  this.freeHeightSpace);
+         }else{
+            this.y = y;
+            this.x = x - this.moveFrontTimes * (this.getWidth() + this.freeHeightSpace)
+         }
+       
+    }
+    setRotation(rotation){
+        if(Phaser.Math.RadToDeg(rotation) == -90){
+            this.rotationDeg = -90;
+        } 
+        else{
+            this.rotationDeg = 0;
+        }
+        super.setRotation(rotation);
     }
 
     moveFront(){
         if(this.moveFrontTimes == maxMoveFrontTimes) return;
-        this.y -= this.getHeight() + this.freeHeightSpace;
+        if(this.rotationDeg == 0){
+            this.y -= this.getHeight() + this.freeHeightSpace;
+        }else{
+            this.x -= this.getHeight() + this.freeHeightSpace;
+        }
         this.moveFrontTimes++;
     }
 }
