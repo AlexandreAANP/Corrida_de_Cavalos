@@ -12,6 +12,7 @@ export default class Deck {
         this.y = 0;
         this.cards = []
         this.ACards = [];
+        this.cardsInGame = [];
         
     }
 
@@ -78,6 +79,10 @@ export default class Deck {
         for(const listCard of Object.values(mappingCards)){
             listCard.forEach((card) => card.setVisible(true))
         }
+    }
+
+    getLastCardVisibleInDeck(){ 
+        return this.cards.slice().reverse().find(card => !this.ACards.includes(card) && card.visible && !this.cardsInGame.includes(card))
     }
     setRotation(rotation){
         this.cards.forEach(card => card.setRotation(rotation))

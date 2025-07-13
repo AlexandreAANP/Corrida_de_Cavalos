@@ -21,7 +21,6 @@ export default class NormalCard extends Card{
             this.y = y;
             this.x = x - this.position * (this.getHeight() + this.freeHeightSpace);
          }
-       
     }
 
     setRotation(rotation){
@@ -35,9 +34,6 @@ export default class NormalCard extends Card{
     }
 
 
-    onClick(){
-      this.moveFront();
-    }
 
     moveFront(){
         let y = this.y;
@@ -50,7 +46,7 @@ export default class NormalCard extends Card{
         }
         NormalCard.lastPositionCard++;
         this.position = NormalCard.lastPositionCard;
-        this.scene.deck.show()
+        // this.scene.deck.show()
         this.scene.tweens.add({
             targets: this,         // the object to move
             x: x,                   // new x position
@@ -59,6 +55,9 @@ export default class NormalCard extends Card{
             ease: 'Linear',
             onComplete: () => console.log("completed animation of moving")
         });
+        this.scene.deck.cardsInGame.push(this);
+        this.scene.deck.show()
+        
     }
 
     flipped(){

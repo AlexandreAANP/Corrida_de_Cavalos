@@ -16,9 +16,13 @@ class MainScene extends Phaser.Scene
     {
         this.deck.create();
         this.updateLayout()
-        
-        
         this.scale.on('resize', this.updateLayout, this);
+
+
+        for(let i = 0; i < 5; i++){
+            console.log("ejoirj")
+            setInterval(()=>{this.deck.getLastCardVisibleInDeck()?.moveFront(); this.deck.show();}, 300* i);
+        }
         // setInterval(()=> {deck.shuffle(); deck.show();}, 3000)
     }
 
