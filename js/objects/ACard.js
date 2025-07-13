@@ -11,7 +11,7 @@ export default class ACard extends Card{
         super(scene, x, y, frontKey, isBack, scaleX, scaleY);
         this.moveFrontTimes = 0;
         this.freeHeightSpace = 3;
-        this.rotationDeg = 0
+        this.rotationDeg = this.scene.isFlipped() ? -90 : 0
     }
 
     onClick(){
@@ -25,7 +25,7 @@ export default class ACard extends Card{
             this.y = y - this.moveFrontTimes * (this.getHeight() +  this.freeHeightSpace);
          }else{
             this.y = y;
-            this.x = x - this.moveFrontTimes * (this.getWidth() + this.freeHeightSpace)
+            this.x = x - this.moveFrontTimes * (this.getHeight() + this.freeHeightSpace)
          }
        
     }

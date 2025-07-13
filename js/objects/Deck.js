@@ -1,5 +1,5 @@
-import Card from './Card.js'
 import ACard from './ACard.js';
+import NormalCard from './NormalCard.js';
 const nipes = ["clubs","diamonds","hearts","spades"];
 const cardValues = ["2","3","4","5","6","7","8","9","10","J","Q","K","A"]
 export default class Deck {
@@ -11,6 +11,7 @@ export default class Deck {
         this.x = 0;
         this.y = 0;
         this.cards = []
+        this.ACards = [];
         
     }
 
@@ -22,9 +23,11 @@ export default class Deck {
         for(let nipe of nipes){
             for(let value of cardValues){
                 if(value == "A"){
-                    this.cards.push(new ACard(this.scene, this.x, this.y, `${nipe}_${value}`, false, this.scale, this.scale));
+                    const aCard = new ACard(this.scene, this.x, this.y, `${nipe}_${value}`, false, this.scale, this.scale);
+                    this.cards.push(aCard);
+                    this.ACards.push(aCard);
                 }else{
-                    this.cards.push(new Card(this.scene, this.x, this.y, `${nipe}_${value}`, true, this.scale, this.scale));
+                    this.cards.push(new NormalCard(this.scene, this.x, this.y, `${nipe}_${value}`, true, this.scale, this.scale));
                 }
             
             }
@@ -80,9 +83,14 @@ export default class Deck {
         this.cards.forEach(card => card.setRotation(rotation))
     }
 
+    moveACard(key, x, y){
+        this.getACard(key)?.setPosition(x,y);
+    }
+
     moveSpecificCard(key, x, y){
         this.getCard(key)?.setPosition(x,y);
     }
+    getACard = (key) => this.ACards.find(card => card.frontKey == key);
     getCard = (key) => this.cards.find((card) => card.frontKey == key);
 
 

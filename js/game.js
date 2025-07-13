@@ -62,20 +62,22 @@ class MainScene extends Phaser.Scene
          for (const A_card of ["deck","clubs_A","hearts_A","spades_A", "diamonds_A"]){
             if(A_card === "deck"){
                 if(isPhoneFlipped){
-                    this.deck.moveDeck(yPosition, this.scale.height - xPosition - cardWidth/2);
                     this.deck.setRotation(Phaser.Math.DegToRad(-90));
+                    this.deck.moveDeck(yPosition, this.scale.height - xPosition - cardWidth/2);
+                    
                 }else{
-                    this.deck.moveDeck(xPosition + cardWidth/2, yPosition);
                     this.deck.setRotation(Phaser.Math.DegToRad(0));
+                    this.deck.moveDeck(xPosition + cardWidth/2, yPosition);
+                    
                 }
                 
             }else{
                 if(isPhoneFlipped){
-                    this.deck.moveSpecificCard(A_card, yPosition, this.scale.height - xPosition - cardWidth/2);
-                    this.deck.getCard(A_card).setRotation(Phaser.Math.DegToRad(-90))
+                    this.deck.moveACard(A_card, yPosition, this.scale.height - xPosition - cardWidth/2);
+                    this.deck.getACard(A_card).setRotation(Phaser.Math.DegToRad(-90))
                 }else{
-                    this.deck.moveSpecificCard(A_card, xPosition + cardWidth/2, yPosition);
-                    this.deck.getCard(A_card).setRotation(Phaser.Math.DegToRad(0));
+                    this.deck.moveACard(A_card, xPosition + cardWidth/2, yPosition);
+                    this.deck.getACard(A_card).setRotation(Phaser.Math.DegToRad(0));
                 }
                 
             }
