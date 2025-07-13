@@ -41,11 +41,22 @@ export default class ACard extends Card{
 
     moveFront(){
         if(this.moveFrontTimes == maxMoveFrontTimes) return;
+        let x = this.x;
+        let y = this.y;
         if(this.rotationDeg == 0){
-            this.y -= this.getHeight() + this.freeHeightSpace;
+            y -= this.getHeight() + this.freeHeightSpace;
         }else{
-            this.x -= this.getHeight() + this.freeHeightSpace;
+            x -= this.getHeight() + this.freeHeightSpace;
         }
+
+          this.scene.tweens.add({
+            targets: this,         // the object to move
+            x: x,                   // new x position
+            y: y,                   // new y position
+            duration: 300,           // duration in ms
+            ease: 'Linear',
+            onComplete: () => console.log("completed animation of moving")
+        });
         this.moveFrontTimes++;
     }
 }

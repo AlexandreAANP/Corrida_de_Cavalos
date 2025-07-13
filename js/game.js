@@ -19,11 +19,9 @@ class MainScene extends Phaser.Scene
         this.scale.on('resize', this.updateLayout, this);
 
 
-        for(let i = 0; i < 5; i++){
-            console.log("ejoirj")
-            setInterval(()=>{this.deck.getLastCardVisibleInDeck()?.moveFront(); this.deck.show();}, 300* i);
+        for(let i = 1; i < 6; i++){
+            setTimeout(()=>{this.deck.getLastCardVisibleInDeck()?.moveFront(); this.deck.show();}, 300* i);
         }
-        // setInterval(()=> {deck.shuffle(); deck.show();}, 3000)
     }
 
     isFlipped(){
@@ -54,6 +52,10 @@ class MainScene extends Phaser.Scene
     }
     getHeightMarging(){
         return this.scale.height * marging / 2
+    }
+
+    moveACard(key){
+        this.deck.getACard(key).moveFront();
     }
 
     updateLayout(){

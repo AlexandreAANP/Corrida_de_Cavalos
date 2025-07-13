@@ -33,9 +33,42 @@ export default class NormalCard extends Card{
         super.setRotation(rotation);
     }
 
+    onClick(){
+        if(this.isFlipped){
+            const lastCardInGame = this.scene.deck.cardsInGame[this.scene.deck.cardsInGame.length -1]
+            if(!lastCardInGame.isFlipped && lastCardInGame != this){
+                this.scene.deck.cardsInGame = []
+                NormalCard.lastPositionCard = 0;
+                for(let i = 0; i < 5; i++){
+                //     // this.scene.deck.getLastCardVisibleInDeck()?.moveFront(); 
+                //     // console.log(this.scene.deck.cardsInGame)
+                //     // console.log(this.scene.deck.cardsInGame)
+                //     // console.log(this.scene.deck.cardsInGame)
+                    console.log(this.scene.deck.getLastCardVisibleInDeck())
+
+                     setTimeout(()=>{this.scene.deck.getLastCardVisibleInDeck()?.moveFront(); this.scene.deck.show();}, 300* i);
+                    // setInterval(()=>{this.scene.deck.getLastCardVisibleInDeck()?.moveFront(); this.scene.deck.show(); console.log(i)}, 300* i);
+                }
+                // this.scene.deck.cardsInGame = []
+                // this.scene.deck.show();
+                return;
+            }else if(!this.scene.deck.cardsInGame.includes(this)){
+                return;
+            }
+
+            if(this.position == 1 || !this.scene.deck.cardsInGame[this.position-1-1].isFlipped){
+                this.scene.moveACard(`${this.frontKey.split("_")[0]}_A`)
+                super.onClick();
+            }
+            
+        }
+    }
 
 
     moveFront(){
+        console.log("moving front card:", this.frontKey, this.scene.deck.cardsInGame)
+        this.setVisible(true);
+        console.log(this.visible)
         let y = this.y;
         let x = this.x;
         if(NormalCard.lastPositionCard == 5 || this.position != 0) return;
@@ -55,7 +88,7 @@ export default class NormalCard extends Card{
             ease: 'Linear',
             onComplete: () => console.log("completed animation of moving")
         });
-        this.scene.deck.cardsInGame.push(this);
+        this.scene.deck.cardsInGame[this.position-1] = this;
         this.scene.deck.show()
         
     }
